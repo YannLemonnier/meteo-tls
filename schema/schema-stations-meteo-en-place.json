@@ -1,0 +1,91 @@
+{
+  "title": "stations-meteo-en-place",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/stations-meteo-en-place"
+    }
+  ],
+  "definitions": {
+    "stations-meteo-en-place": {
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/stations-meteo-en-place_records"
+          }
+        }
+      }
+    },
+    "stations-meteo-en-place_records": {
+      "properties": {
+        "fields": {
+          "type": "object",
+          "properties": {
+            "longitude": {
+              "type": "number",
+              "title": "longitude",
+              "description": "WGS84"
+            },
+            "latitude": {
+              "type": "number",
+              "title": "latitude",
+              "description": "WGS84"
+            },
+            "altitude": {
+              "type": "number",
+              "title": "altitude",
+              "description": "en m"
+            },
+            "id_nom": {
+              "type": "string",
+              "title": "id_nom",
+              "description": "Identifiant station "
+            },
+            "id_numero": {
+              "type": "integer",
+              "title": "id_numero",
+              "description": ""
+            },
+            "emission": {
+              "type": "string",
+              "title": "emission",
+              "description": "V=émission valide"
+            },
+            "installation": {
+              "type": "string",
+              "format": "date",
+              "title": "installation",
+              "description": "date installation"
+            },
+            "type_stati": {
+              "type": "string",
+              "title": "type_stati",
+              "description": ""
+            },
+            "lcz": {
+              "type": "integer",
+              "title": "lcz",
+              "description": "Local Climate Zone"
+            },
+            "ville": {
+              "type": "string",
+              "title": "ville",
+              "description": "Commune ou se situe la station"
+            },
+            "bati": {
+              "type": "number",
+              "title": "bati",
+              "description": ""
+            },
+            "veg_haute": {
+              "type": "number",
+              "title": "veg_haute",
+              "description": ""
+            }
+          }
+        }
+      }
+    }
+  }
+}
