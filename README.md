@@ -1,0 +1,2 @@
+# Projet météo Toulouse
+Le but est d'analyser le phénomène d'îlot de chaleur dans la métropole de Toulouse. Pour cela, les données open data sont utilisées. Voir les [Stations meteo en place](https://data.toulouse-metropole.fr/explore/dataset/stations-meteo-en-place/information/)
