@@ -12,9 +12,13 @@ class ImportToulouseDataset:
     :param project: a project in google cloud platform
     """
 
-    def __init__(self, toulouse_dataset: str, project: str):
+    def __init__(self, toulouse_dataset: str, project: str = None):
         self.toulouse_dataset = toulouse_dataset
-        self.project = project
+        if project is None:
+            self.storage_client = storage.Client()
+        else:
+            self.storage_client = storage.Client(project=project)
+        self.project = self.storage_client.project
 
     def upload(self):
         blob = self.__bucket.blob(self.destination_name)
@@ -22,9 +26,8 @@ class ImportToulouseDataset:
 
     @property
     def __bucket(self):
-        storage_client = storage.Client()
         try:
-            bucket = storage_client.get_bucket(self.bucket_name)
+            bucket = self.storage_client.get_bucket(self.bucket_name)
         except NotFound:
             raise ValueError('Issues when reaching project bucket. Please check project name')
         return bucket
@@ -39,6 +42,7 @@ class ImportToulouseDataset:
 
     @property
     def dataset_stream(self):
+        link = None
         try:
             link = urllib.request.urlopen(self.dataset_url)
         except HTTPError as http_error:

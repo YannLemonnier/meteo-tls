@@ -1,5 +1,4 @@
 from unittest.mock import patch
-from urllib.error import URLError
 from urllib.parse import urlparse
 
 import pytest
@@ -10,7 +9,7 @@ from src.import_toulouse_dataset import ImportToulouseDataset
 class TestImportDatasetFile:
     @pytest.fixture
     def factice_dataset_import(self):
-        yield ImportToulouseDataset('factice_dataset', 'factice_project')
+        yield ImportToulouseDataset('factice_dataset')
 
     def test_dataset_url_is_valid(self, factice_dataset_import):
         result = urlparse(factice_dataset_import.dataset_url)
