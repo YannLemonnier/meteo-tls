@@ -11,7 +11,7 @@ class TestConvertSchema:
     def test_error_with_invalid_filename(self):
         match_msg = 'Invalid schema filename provided. See schema sub folder for available schema'
         with pytest.raises(FileNotFoundError, match=match_msg):
-            ConvertSchema('invalid_name').bq_schema()
+            _ = ConvertSchema('invalid_name').original_schema
 
     def test_output_a_list(self, schema_stations):
         assert isinstance(schema_stations, list)

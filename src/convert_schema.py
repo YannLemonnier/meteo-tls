@@ -17,7 +17,7 @@ class ConvertSchema:
         self.schema_name = schema_name
 
     @property
-    def bq_schema(self):
+    def bq_schema(self) -> list:
         schema_in = self.original_schema['definitions'][f'{self.schema_name}_records']['properties']['fields']
         return converter(schema_in)
 
