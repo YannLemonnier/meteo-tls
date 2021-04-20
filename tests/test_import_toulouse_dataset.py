@@ -30,7 +30,7 @@ class TestImportDatasetFile:
             assert upload.called
 
     def test_call_upload_return_blob(self):
-        with patch('google.cloud.storage.blob.Blob.upload_from_string') as upload:
+        with patch('google.cloud.storage.blob.Blob.upload_from_string'):
             result = ImportToulouseDataset('stations-meteo-en-place', 'meteo-tls').upload()
 
         assert isinstance(result, Blob)
