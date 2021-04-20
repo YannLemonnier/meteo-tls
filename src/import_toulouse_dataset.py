@@ -20,9 +20,10 @@ class ImportToulouseDataset:
             self.storage_client = storage.Client(project=project)
         self.project = self.storage_client.project
 
-    def upload(self):
+    def upload(self) -> str:
         blob = self.__bucket.blob(self.destination_name)
         blob.upload_from_string(self.dataset_stream.read())
+        return blob
 
     @property
     def __bucket(self):

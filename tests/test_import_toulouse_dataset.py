@@ -2,6 +2,7 @@ from unittest.mock import patch
 from urllib.parse import urlparse
 
 import pytest
+from google.cloud.storage import Blob
 
 from src.import_toulouse_dataset import ImportToulouseDataset
 
@@ -27,6 +28,12 @@ class TestImportDatasetFile:
         with patch('google.cloud.storage.blob.Blob.upload_from_string') as upload:
             ImportToulouseDataset('stations-meteo-en-place', 'meteo-tls').upload()
             assert upload.called
+
+    def test_call_upload_return_blob(self):
+        with patch('google.cloud.storage.blob.Blob.upload_from_string') as upload:
+            result = ImportToulouseDataset('stations-meteo-en-place', 'meteo-tls').upload()
+
+        assert isinstance(result, Blob)
 
 
 if __name__ == '__main__':
