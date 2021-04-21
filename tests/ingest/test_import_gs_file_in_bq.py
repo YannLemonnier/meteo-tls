@@ -3,8 +3,8 @@ from unittest.mock import patch
 
 import pytest
 
-from src.convert_schema import ConvertSchema
-from src.import_gs_file_in_bq import ImportGsFileInBq
+from ingest.convert_schema import ConvertSchema
+from ingest.import_gs_file_in_bq import ImportGsFileInBq
 
 
 class TestImportGsFileInBq:

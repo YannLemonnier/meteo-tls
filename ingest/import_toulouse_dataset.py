@@ -4,6 +4,8 @@ from google.api_core.exceptions import NotFound
 from google.cloud import storage
 import urllib.request
 
+from google.cloud.storage import Blob
+
 
 class ImportToulouseDataset:
     """
@@ -20,7 +22,7 @@ class ImportToulouseDataset:
             self.storage_client = storage.Client(project=project)
         self.project = self.storage_client.project
 
-    def upload(self) -> str:
+    def upload(self) -> Blob:
         blob = self.__bucket.blob(self.destination_name)
         blob.upload_from_string(self.dataset_stream.read())
         return blob

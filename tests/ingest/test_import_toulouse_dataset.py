@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 import pytest
 from google.cloud.storage import Blob
 
-from src.import_toulouse_dataset import ImportToulouseDataset
+from ingest.import_toulouse_dataset import ImportToulouseDataset
 
 
 class TestImportDatasetFile:

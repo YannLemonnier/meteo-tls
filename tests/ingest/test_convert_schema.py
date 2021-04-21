@@ -1,6 +1,6 @@
 import pytest
 
-from src.convert_schema import ConvertSchema
+from ingest.convert_schema import ConvertSchema
 
 
 class TestConvertSchema:
