@@ -259,3 +259,5 @@ data/
 doc/
 keys/
 draft/
+
+.mapbox_token
