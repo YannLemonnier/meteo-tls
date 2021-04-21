@@ -1,0 +1,54 @@
+from collections import namedtuple
+from unittest.mock import patch
+
+import pytest
+
+from src.convert_schema import ConvertSchema
+from src.import_gs_file_in_bq import ImportGsFileInBq
+
+
+class TestImportGsFileInBq:
+    @pytest.fixture(autouse=True)
+    def setup(self, patch_available_tables):
+        self.dataset = 'fake_dataset'
+        self.table = 'fake_table'
+        self.my_schema = ConvertSchema('stations-meteo-en-place').bq_schema
+
+    @pytest.fixture
+    def patch_available_tables(self):
+        TableWithId = namedtuple('TableWithId', 'table_id')
+        fake_table = TableWithId('fake_table')
+        with patch('google.cloud.bigquery.client.Client.list_tables') as list_tables:
+            list_tables.return_value = [fake_table]
+            yield list_tables
+
+    def test_instantiate_with_dataset_table_and_schema(self, fake_instance):
+        assert isinstance(fake_instance, ImportGsFileInBq)
+
+    @pytest.fixture
+    def fake_instance(self):
+        yield ImportGsFileInBq(self.dataset, self.table, self.my_schema)
+
+    def test_create_table_if_needed(self, patch_create_table):
+        ImportGsFileInBq(self.dataset, 'new_table', self.my_schema)
+        assert patch_create_table.called
+
+    @pytest.fixture
+    def patch_create_table(self):
+        with patch('google.cloud.bigquery.client.Client.create_table') as create_table:
+            yield create_table
+
+    def test_call_load_table_from_uri(self, fake_instance):
+        fake_uri = 'gs://fake_bucket/fake.csv'
+        with patch('google.cloud.bigquery.client.Client.load_table_from_uri') as load_table_from_uri:
+            with patch('google.cloud.bigquery.client.Client.get_table') as table:
+                TableWithNumRows = namedtuple('TableWithId', 'num_rows')
+                fake_table = TableWithNumRows(0)
+                table.return_value = fake_table
+
+                fake_instance.load(fake_uri)
+            assert load_table_from_uri.called
+
+
+if __name__ == '__main__':
+    pytest.main()
