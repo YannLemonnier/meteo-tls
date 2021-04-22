@@ -29,25 +29,30 @@ class TestImportGsFileInBq:
     def fake_instance(self):
         yield ImportGsFileInBq(self.dataset, self.table, self.my_schema)
 
-    def test_create_table_if_needed(self, patch_create_table):
-        ImportGsFileInBq(self.dataset, 'new_table', self.my_schema)
-        assert patch_create_table.called
+    def test_create_table_if_needed(self, patch_load):
+        new_table_instance, _, _ = patch_load
+        new_table_instance.table_name = 'new_table'
+        with patch('google.cloud.bigquery.client.Client.create_table') as create_table:
+            with patch('google.cloud.bigquery.client.Client.load_table_from_uri'):
+                new_table_instance.load('fake_uri')
+        assert create_table.called
+
+    def test_call_load_table_from_uri(self, patch_load):
+        fake_uri = 'gs://fake_bucket/fake.csv'
+        fake_instance, load_table_from_uri, table = patch_load
+
+        fake_instance.load(fake_uri)
+        assert load_table_from_uri.called
 
     @pytest.fixture
-    def patch_create_table(self):
-        with patch('google.cloud.bigquery.client.Client.create_table') as create_table:
-            yield create_table
-
-    def test_call_load_table_from_uri(self, fake_instance):
-        fake_uri = 'gs://fake_bucket/fake.csv'
+    def patch_load(self, fake_instance):
         with patch('google.cloud.bigquery.client.Client.load_table_from_uri') as load_table_from_uri:
             with patch('google.cloud.bigquery.client.Client.get_table') as table:
                 TableWithNumRows = namedtuple('TableWithId', 'num_rows')
                 fake_table = TableWithNumRows(0)
                 table.return_value = fake_table
 
-                fake_instance.load(fake_uri)
-            assert load_table_from_uri.called
+                yield fake_instance, load_table_from_uri, table
 
 
 if __name__ == '__main__':
