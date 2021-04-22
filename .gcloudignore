@@ -5,4 +5,4 @@
 .gitignore
 #!include:.gitignore
 
-tests/
+/tests/
