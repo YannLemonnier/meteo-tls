@@ -7,11 +7,10 @@ from ingest.initiate_dataset import initiate_dataset
 app = Flask(__name__)
 
 
-@app.route('/')
 def start_data_ingestion():
     stage_dataset = initiate_dataset()
     ingest_station_description(stage_dataset)
-    return 'Start data ingestion'
+    return 'End data ingestion'
 
 
 if __name__ == '__main__':
