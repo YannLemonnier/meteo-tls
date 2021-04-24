@@ -2,4 +2,3 @@ cron:
 - description: "Daily update data"
   url: /tasks/ingest
   schedule: every 24 hours
-  target: ingest
