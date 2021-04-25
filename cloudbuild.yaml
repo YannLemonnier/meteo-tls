@@ -2,24 +2,13 @@ steps:
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
   args: ['-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy']
+  waitFor: ['-']
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  args:
-  - gcloud
-  - functions
-  - deploy
-  - main
-  - --region=europe-west1
-  - --source=./ingest/
-  - --trigger-topic daily-ingest
+  entrypoint: 'bash'
+  args: ['-c', 'gcloud functions deploy main --source=./ingest --runtime=python38 --region=europe-west1 --trigger-topic daily-ingest']
+  waitFor: ['-']
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  args:
-  - gcloud
-  - scheduler
-  - jobs
-  - create
-  - pubsub
-  - daily_ingest
-  - --schedule "0 10 */1 * *"
-  - --topic daily-ingest
-  - --message-body "This is a job that I run once per day!"
+  entrypoint: 'bash'
+  args: ['-c', 'gcloud scheduler jobs create pubsub daily_ingest --schedule "0 10 */1 * *" --topic daily-ingest --message-body "This is a job that I run once per day!"']
+  waitFor: ['-']
 timeout: '1600s'
