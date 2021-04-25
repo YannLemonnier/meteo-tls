@@ -1,6 +1,6 @@
-from ingest.ingest_station_description import ingest_station_description
+from .ingest_station_description import ingest_station_description
 
-from ingest.initiate_dataset import initiate_dataset
+from .initiate_dataset import initiate_dataset
 
 
 def main(data, context):
