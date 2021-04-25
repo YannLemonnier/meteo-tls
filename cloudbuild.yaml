@@ -9,6 +9,6 @@ steps:
   waitFor: ['-']
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
-  args: ['-c', '| gcloud scheduler jobs create pubsub daily_ingest --schedule "0 10 */1 * *" --topic daily-ingest --message-body "This is a job that I run once per day!" ||  echo "Scheduler daily_ingest already exist";']
+  args: ['-c', 'gcloud scheduler jobs create pubsub daily_ingest --schedule "0 10 */1 * *" --topic daily-ingest --message-body "This is a job that I run once per day!" ||  echo "Scheduler daily_ingest already exist";']
   waitFor: ['-']
 timeout: '1600s'
