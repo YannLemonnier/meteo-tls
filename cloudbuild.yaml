@@ -7,12 +7,10 @@ steps:
   - gcloud
   - functions
   - deploy
-  - ingest-data
-  - --runtime python38
+  - main
   - --region=europe-west1
   - --source=./ingest/
-  - --trigger-resource daily-ingest
-  - --trigger-event google.pubsub.topic.publish
+  - --trigger-topic daily-ingest
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   args:
   - gcloud
@@ -20,7 +18,7 @@ steps:
   - jobs
   - create
   - pubsub
-  - daily_job
+  - daily_ingest
   - --schedule "0 10 */1 * *"
   - --topic daily-ingest
   - --message-body "This is a job that I run once per day!"
