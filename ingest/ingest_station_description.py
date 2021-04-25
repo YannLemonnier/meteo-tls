@@ -1,6 +1,6 @@
-from .convert_schema import ConvertSchema
-from .import_gs_file_in_bq import ImportGsFileInBq
-from .import_toulouse_dataset import ImportToulouseDataset
+from convert_schema import ConvertSchema
+from import_gs_file_in_bq import ImportGsFileInBq
+from import_toulouse_dataset import ImportToulouseDataset
 
 
 def ingest_station_description(dataset: str):
