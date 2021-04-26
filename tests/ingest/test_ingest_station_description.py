@@ -7,8 +7,8 @@ from ingest.ingest_station_description import ingest_station_description
 
 @pytest.fixture
 def mock_ingest_station_description():
-    with patch('ingest.import_toulouse_dataset.ImportToulouseDataset.upload') as upload_url:
-        with patch('ingest.import_gs_file_in_bq.ImportGsFileInBq.load') as load_table:
+    with patch('import_toulouse_dataset.ImportToulouseDataset.upload') as upload_url:
+        with patch('import_gs_file_in_bq.ImportGsFileInBq.load') as load_table:
             ingest_station_description('fake_dataset')
 
             yield upload_url, load_table
