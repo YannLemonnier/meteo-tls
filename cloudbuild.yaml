@@ -1,20 +1,31 @@
 steps:
 # Integration
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'bash'
-  args: [ '-c', 'pip3 install -r requirements.txt && python3 -m pytest --ignore=./ingest && cd ingest && python3 -m pytest' ]
-  id: 'integration-test'
+# Install dependencies
+- name: python
+  entrypoint: pip
+  args: [ "install", "-r", "requirements.txt", "--user" ]
+# Run unit tests
+- name: python
+  entrypoint: python
+  args: [ "-m", "pytest", "--ignore=./ingest" ]
+- name: python
+  entrypoint: bash
+  args: [ '-c', 'cd ingest && python -m pytest' ]
+  id: 'ingest-test'
 # Deployment
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
   args: ['-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy']
   waitFor: ['integration-test']
+  id: 'deploy-main'
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
   args: ['-c', 'gcloud functions deploy main --source=./ingest --runtime=python38 --region=europe-west1 --trigger-topic daily-ingest']
   waitFor: ['integration-test']
+  id: 'deploy-ingest'
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
   args: ['-c', 'gcloud scheduler jobs create pubsub daily_ingest --schedule "0 10 */1 * *" --topic daily-ingest --message-body "This is a job that I run once per day!" ||  echo "Scheduler daily_ingest already exist";']
   waitFor: ['integration-test']
+  id: 'schedule-ingest'
 timeout: '1600s'
