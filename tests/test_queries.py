@@ -5,7 +5,7 @@ import pytest
 from visualize.queries import table_to_df
 
 
-def test_something():
+def test_table_to_df():
     with patch('google.cloud.bigquery.client.Client.query') as query:
         table_to_df('fake-table')
         assert query.called
