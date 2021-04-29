@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 
 import pytest
 from google.api_core.exceptions import NotFound
-from google.cloud.storage import Blob, Bucket
+from google.cloud.storage import Blob
 
 from ingest.import_toulouse_dataset import ImportToulouseDataset
 
@@ -18,7 +18,7 @@ class TestImportDatasetFile:
         assert all([result.scheme, result.netloc, result.path])
 
     def test_error_when_url_is_not_reachable(self):
-        with patch('google.cloud.storage.client.Client.get_bucket') as get_bucket:
+        with patch('google.cloud.storage.client.Client.get_bucket'):
             with pytest.raises(ValueError, match='Issues when reaching dataset url. Please check dataset name'):
                 ImportToulouseDataset('factice_dataset', 'meteo-tls').upload()
 

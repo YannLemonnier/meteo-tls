@@ -9,7 +9,7 @@ from google.cloud.storage import Blob
 
 class ImportToulouseDataset:
     """
-    This class is responsible to import toulouse metropole dataset into google cloud storage
+    This class is responsible to import toulouse métropole dataset into google cloud storage
     :param toulouse_dataset: name of a dataset available in https://data.toulouse-metropole.fr/
     :param project: a project in google cloud platform
     """
