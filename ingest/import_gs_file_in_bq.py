@@ -63,5 +63,6 @@ class ImportGsFileInBq:
             skip_leading_rows=1,
             # The source format defaults to CSV, so the line below is optional.
             source_format=bigquery.SourceFormat.CSV,
-            write_disposition='WRITE_TRUNCATE'
+            write_disposition='WRITE_TRUNCATE',
+            ignore_unknown_values=True
         )
