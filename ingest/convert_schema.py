@@ -11,13 +11,13 @@ class ConvertSchema:
         See schema sub folder for available schema.
         :param schema_name: filename radical between 'schema-' and '.json'
     """
-    schema_folder = Path(r'../schema')
+    schema_folder = Path(__file__).parent / 'schema'
 
     def __init__(self, schema_name: str):
         self.schema_name = schema_name
 
     @property
-    def bq_schema(self):
+    def bq_schema(self) -> list:
         schema_in = self.original_schema['definitions'][f'{self.schema_name}_records']['properties']['fields']
         return converter(schema_in)
 
