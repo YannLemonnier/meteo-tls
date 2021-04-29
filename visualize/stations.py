@@ -1,7 +1,7 @@
 import plotly.express as px
 from plotly.graph_objs import Figure
 
-from visualize.queries import table_to_df
+from ingest.queries import table_to_df
 
 
 def stations_map() -> Figure:

@@ -1,4 +1,4 @@
-from ingest_station_description import ingest_station_description
+from ingest_to_bigquery import ingest_station_description, ingest_station_data
 
 from initiate_dataset import initiate_dataset
 
@@ -6,6 +6,7 @@ from initiate_dataset import initiate_dataset
 def main(data, context):
     stage_dataset = initiate_dataset()
     ingest_station_description(stage_dataset)
+    ingest_station_data(stage_dataset)
 
 
 if __name__ == "__main__":
