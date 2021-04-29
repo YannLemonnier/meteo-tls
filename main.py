@@ -4,7 +4,9 @@ import dash_html_components as html
 
 from visualize.stations import stations_map
 
-dash_app = dash.Dash()
+BS = "https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cyborg/bootstrap.min.css"
+
+dash_app = dash.Dash(external_stylesheets=[BS])
 app = dash_app.server
 
 dash_app.layout = html.Div(children=[
