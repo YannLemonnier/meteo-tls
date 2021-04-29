@@ -2,7 +2,7 @@ steps:
 # Integration
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
-  args: [ '-c', 'python -m pytest --ignore=./ingest && cd ingest && python -m pytest' ]
+  args: [ '-c', 'pip install -r requirements.txt && python -m pytest --ignore=./ingest && cd ingest && python -m pytest' ]
   id: 'integration-test'
 # Deployment
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
