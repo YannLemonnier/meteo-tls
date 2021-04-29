@@ -2,7 +2,8 @@ from unittest.mock import patch
 from urllib.parse import urlparse
 
 import pytest
-from google.cloud.storage import Blob
+from google.api_core.exceptions import NotFound
+from google.cloud.storage import Blob, Bucket
 
 from ingest.import_toulouse_dataset import ImportToulouseDataset
 
@@ -17,12 +18,15 @@ class TestImportDatasetFile:
         assert all([result.scheme, result.netloc, result.path])
 
     def test_error_when_url_is_not_reachable(self):
-        with pytest.raises(ValueError, match='Issues when reaching dataset url. Please check dataset name'):
-            ImportToulouseDataset('factice_dataset', 'meteo-tls').upload()
+        with patch('google.cloud.storage.client.Client.get_bucket') as get_bucket:
+            with pytest.raises(ValueError, match='Issues when reaching dataset url. Please check dataset name'):
+                ImportToulouseDataset('factice_dataset', 'meteo-tls').upload()
 
     def test_error_with_invalid_project(self):
-        with pytest.raises(ValueError, match='Issues when reaching project bucket. Please check project name'):
-            ImportToulouseDataset('stations-meteo-en-place', 'factice_project').upload()
+        with patch('google.cloud.storage.client.Client.get_bucket') as get_bucket:
+            get_bucket.side_effect = NotFound('Bucket not found')
+            with pytest.raises(ValueError, match='Issues when reaching project bucket. Please check project name'):
+                ImportToulouseDataset('stations-meteo-en-place', 'factice_project').upload()
 
     def test_call_upload_from_string(self):
         with patch('google.cloud.storage.blob.Blob.upload_from_string') as upload:
