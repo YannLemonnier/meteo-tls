@@ -16,7 +16,7 @@ dash_app.layout = html.Div(children=[
 
     dcc.Graph(
         id='stations',
-        figure=stations_map,
+        figure=stations_map(),
         style={'width': '98vw', 'height': '90vh'}
     ),
 ])
