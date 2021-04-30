@@ -7,7 +7,8 @@ def table_to_df(table_name: str) -> pandas.DataFrame:
     query_job = client.query(
         f"""
         SELECT *
-        FROM `{client.project}.dataset.{table_name}` 
+        FROM `{client.project}.dataset.{table_name}`
+        WHERE emission = 'V'
         LIMIT 1000
         """
     )
