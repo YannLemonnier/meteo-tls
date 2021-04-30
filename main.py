@@ -28,7 +28,7 @@ dash_app.layout = html.Div(children=[
 @app.route('/tasks/ingest')
 def start():
     """Return a friendly HTTP greeting."""
-    main('data', 'content')
+    print('data')
     return '200'
 
 
