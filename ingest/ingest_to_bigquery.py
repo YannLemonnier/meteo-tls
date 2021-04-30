@@ -29,15 +29,17 @@ def ingest_open_data_in_dataset_table_given_schema(open_dataset: Union[str, List
     uris = []
     for open_data in open_dataset:
         try:
+            print(f'Loading: {open_data}')
             file_blob = ImportToulouseDataset(open_data).upload()
             uri = f'gs://{file_blob.bucket.name}/{file_blob.name}'
             uris.append(uri)
         except ValueError:
-            pass
+            print(f'failed')
 
     my_schema = ConvertSchema(schema).bq_schema
     import_session = ImportGsFileInBq(dataset, table, my_schema)
 
+    print('Import in BigQuery')
     import_session.load(uris)
 
 
