@@ -20,7 +20,7 @@ steps:
   id: 'deploy-main'
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
-  args: ['-c', 'gcloud functions deploy main --source=./ingest --runtime=python38 --region=europe-west1 --trigger-topic daily-ingest --timeout=54000']
+  args: ['-c', 'gcloud functions deploy main --source=./ingest --runtime=python38 --region=europe-west1 --trigger-topic daily-ingest --timeout=540']
   waitFor: ['ingest-test']
   id: 'deploy-ingest'
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
