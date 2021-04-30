@@ -1,6 +1,6 @@
-from ingest_to_bigquery import ingest_station_description, ingest_station_data
+from ingest.ingest_to_bigquery import ingest_station_description, ingest_station_data
 
-from initiate_dataset import initiate_dataset
+from ingest.initiate_dataset import initiate_dataset
 
 
 def main(data, context):

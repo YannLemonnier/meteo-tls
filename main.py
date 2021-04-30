@@ -40,7 +40,7 @@ def display_page(pathname):
         main('data', 'context')
         return '200'
     else:
-        return '404'
+        return main_layout
 
 
 if __name__ == '__main__':
