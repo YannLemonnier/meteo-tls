@@ -51,19 +51,10 @@ def validate_cron_header(protected_function):
 @validate_cron_header
 def long_run_ingestion():
     """
-    Start a process to keep app engine instance alive when performing data ingestion but kill that process when
-    it is done
+    Start a process to perform data ingestion
     :return: 200 if everything is done
     """
-    wait_time_seconds = 60
-    project_url = request.url_root
-
-    quit_event_h = multiprocessing.Event()
-    staying_alive_p = multiprocessing.Process(target=staying_alive, args=(project_url, wait_time_seconds, quit_event_h))
-    staying_alive_p.start()
-
-    start_ingest_p = multiprocessing.Process(target=worker, args=(start_ingest, quit_event_h))
-    start_ingest_p.start()
+    start_ingest()
     return '200'
 
 
