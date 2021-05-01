@@ -27,11 +27,10 @@ def test_load_table(mock_ingest_station_description):
 
 @pytest.fixture
 def mock_ingest_station_data():
-    with patch('ingest.ingest_to_bigquery.get_most_common_schema_station_list'):
-        with patch('ingest.import_toulouse_dataset.ImportToulouseDataset.upload') as upload_url:
-            with patch('ingest.import_gs_file_in_bq.ImportGsFileInBq.load') as load_table:
-                ingest_station_data('fake_dataset')
-                yield upload_url, load_table
+    with patch('ingest.import_toulouse_dataset.ImportToulouseDataset.upload') as upload_url:
+        with patch('ingest.import_gs_file_in_bq.ImportGsFileInBq.load') as load_table:
+            ingest_station_data('fake_dataset', 'fake_table')
+            yield upload_url, load_table
 
 
 def test_ingest_station_data_upload_url(mock_ingest_station_data):
