@@ -45,7 +45,7 @@ def load_in_gcs(open_dataset):
             uri = f'gs://{file_blob.bucket.name}/{file_blob.name}'
             uris.append(uri)
         except ValueError:
-            print(f'failed')
+            print(f'Failed: {open_data}')
     return uris
 
 
