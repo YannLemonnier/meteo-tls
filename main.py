@@ -5,6 +5,7 @@ from flask import request
 
 from ingest.main import start_ingest
 
+
 from visualize.stations import stations_map
 
 BS = "https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cyborg/bootstrap.min.css"
