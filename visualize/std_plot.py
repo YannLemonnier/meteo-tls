@@ -7,7 +7,7 @@ from ingest.queries import get_std_by_date_hour
 def std_plot() -> Figure:
     stations_data = get_std_by_date_hour('stations')
 
-    figure = px.scatter(stations_data, x='datetime', y=['std', 'temperature'])
+    figure = px.scatter(stations_data, x='datetime', y=['temperature', 'std'])
 
     figure.update_layout(plot_bgcolor="rgba(0,0,0,0)",
                          paper_bgcolor="rgba(0,0,0,0)",

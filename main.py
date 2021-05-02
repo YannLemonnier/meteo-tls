@@ -18,7 +18,10 @@ dash_app.layout = html.Div(children=[
     html.H1(children='Températures à Toulouse'),
 
     html.Div(children='''
-        Voici une carte des températures moyennes à Toulouse
+        Voici une carte des stations météo de la métropole de Toulouse. 
+        Vous pouvez cliquer sur un point (température ou écart-type) 
+        dans le deuxième graphe pour faire apparaitre les données de températures
+        à cet instant.
     '''),
 
     dcc.Graph(
@@ -26,9 +29,6 @@ dash_app.layout = html.Div(children=[
         figure=stations_map(),
         style={'width': '98vw', 'height': '45vh'}
     ),
-    html.Div([
-        html.Pre(id='selected-data'),
-    ]),
     dcc.Graph(
         id='ecart',
         figure=std_plot(),
@@ -66,7 +66,7 @@ def long_run_ingestion():
 
 
 @dash_app.callback(
-    [Output('selected-data', 'children'), Output('stations', 'figure')],
+    Output('stations', 'figure'),
     Input('ecart', 'clickData'))
 def display_clicked_data(clickData):
     date = ''
@@ -74,7 +74,7 @@ def display_clicked_data(clickData):
         date = clickData['points'][0]['x']
     except TypeError:
         pass
-    return date, stations_map(date)
+    return stations_map(date)
 
 
 if __name__ == '__main__':
