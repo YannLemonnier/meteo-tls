@@ -1,11 +1,8 @@
-import multiprocessing
-
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from flask import request
 
-from helper import staying_alive, worker
 from ingest.main import start_ingest
 
 from visualize.stations import stations_map
