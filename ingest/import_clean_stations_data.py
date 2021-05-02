@@ -29,6 +29,9 @@ class ImportCleanStationsData(ImportToulouseDataset):
 
         tmp_df = self.get_url_as_dataframe(nb_rows=None)
 
+        if len(tmp_df) < 40000:
+            raise ValueError('Not enough data')
+
         check_id = tmp_df.id == id_number
         try:
             check_temperature = tmp_df.temperature > -20

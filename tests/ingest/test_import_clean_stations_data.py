@@ -34,9 +34,7 @@ class TestImportCleanStationsData:
     @pytest.fixture
     def bad_dataset(self, small_dataset_import):
         tmp_df = small_dataset_import.get_url_as_dataframe(nb_rows=700)
-        tmp_df.loc[-3, 'id'] = numpy.NaN
-        tmp_df.loc[-4, 'temperature'] = -50.0
-        tmp_df.loc[-5, 'type_de_station'] = 'sous-station'
+        tmp_df = tmp_df.append([tmp_df]*100)
         yield tmp_df
 
     @pytest.fixture
