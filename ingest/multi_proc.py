@@ -10,7 +10,7 @@ def ingest_station_data_mp(dataset: str, table: str):
     list_of_datasets = stations_info['id_nom'].to_list()
 
     schema = '14-station-meteo-toulouse-centre-pierre-potier'
-    with Pool(multiprocessing.cpu_count() - 2) as p:
+    with Pool(6) as p:
         uris = p.map(load_in_gcs, list_of_datasets)
     uris = [uri[0] for uri in uris if len(uri) > 0]
 
