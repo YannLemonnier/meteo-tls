@@ -12,14 +12,14 @@ from visualize.stations import stations_map
 
 BS = "https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cyborg/bootstrap.min.css"
 
-dash_app = dash.Dash(external_stylesheets=[BS])
+dash_app = dash.Dash(external_stylesheets=[BS], title='Temperatures à Toulouse')
 app = dash_app.server
 
 dash_app.layout = html.Div(children=[
-    html.H1(children='Weather at Toulouse'),
+    html.H1(children='Températures à Toulouse'),
 
     html.Div(children='''
-        This is a map with all weather stations.
+        Voici une carte des températures moyennes à Toulouse
     '''),
 
     dcc.Graph(
@@ -59,4 +59,4 @@ def long_run_ingestion():
 
 
 if __name__ == '__main__':
-    dash_app.run_server(debug=True)
+    dash_app.run_server(debug=False)
