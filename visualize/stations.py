@@ -9,7 +9,9 @@ all_temp = get_all_temp_to_df('stations-meteo-en-place', 'stations')
 def stations_map(date: str = None) -> Figure:
     if date == '' or date is None:
         stations_info = all_temp.groupby(['id_nom', 'longitude', 'latitude', 'altitude'], as_index=False).mean()
-        title = 'Températures moyennes'
+        mean = stations_info.temperature.mean().round(2)
+        std = stations_info.temperature.std().round(2)
+        title = f'Températures moyennes {mean}°C ± {std}'
     else:
         stations_info = all_temp.loc[all_temp['datetime'] == date]
         mean = stations_info.temperature.mean().round(2)
