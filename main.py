@@ -17,18 +17,18 @@ app = dash_app.server
 dash_app.layout = html.Div(children=[
     html.H1(children='Températures à Toulouse'),
 
-    html.Div(children='''
-        Voici une carte des stations météo de la métropole de Toulouse. 
-        Vous pouvez cliquer sur un point (température ou écart-type) 
-        dans le deuxième graphe pour faire apparaitre les données de températures
-        à cet instant.
-    '''),
-
     dcc.Graph(
         id='stations',
         figure=stations_map(),
         style={'width': '98vw', 'height': '42vh'}
     ),
+
+    html.Div(children='''
+    Cliquer sur un point (température ou écart-type) 
+    dans le graphe ci-dessous pour faire apparaitre les données de températures
+    à cet instant.
+'''),
+
     dcc.Graph(
         id='ecart',
         figure=std_plot(),
@@ -37,7 +37,7 @@ dash_app.layout = html.Div(children=[
 ])
 
 
-# Define the decorator to protect your end points
+# Define the decorator to protect end points
 def validate_cron_header(protected_function):
     def cron_header_validator_wrapper(*args, **kwargs):
         header = request.headers.get('X-Appengine-Cron')
