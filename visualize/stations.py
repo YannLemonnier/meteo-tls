@@ -1,15 +1,22 @@
 import plotly.express as px
 from plotly.graph_objs import Figure
 
-from ingest.queries import get_temp_to_df
+from ingest.queries import get_avg_temp_to_df, get_temp_from_date_to_df, get_all_temp_to_df
+
+all_temp = get_all_temp_to_df('stations-meteo-en-place', 'stations')
 
 
-def stations_map() -> Figure:
-    stations_info = get_temp_to_df('stations-meteo-en-place', 'stations')
+def stations_map(date: str = None) -> Figure:
+    if date == '' or date is None:
+        stations_info = station_info = all_temp.groupby(['id_nom', 'longitude', 'latitude', 'altitude'], as_index=False).mean()
+        title = 'Températures moyennes'
+    else:
+        stations_info = all_temp.loc[all_temp['datetime'] == date]
+        title = f'Température pour l\'instant: {date}'
 
-    figure = px.scatter_mapbox(stations_info, lat="latitude", lon="longitude", color="temp",
+    figure = px.scatter_mapbox(stations_info, lat="latitude", lon="longitude", color="temperature",
                                hover_name="id_nom",
-                               color_continuous_scale="bluered", size_max=15, zoom=12)
+                               color_continuous_scale="bluered", size_max=15, zoom=12, title=title)
 
     figure.update_layout(mapbox_style="carto-darkmatter",
                          paper_bgcolor="rgba(0,0,0,0)",

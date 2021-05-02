@@ -1,12 +1,13 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Output, Input
 from flask import request
 
 from ingest.main import start_ingest
 
-
 from visualize.stations import stations_map
+from visualize.std_plot import std_plot
 
 BS = "https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cyborg/bootstrap.min.css"
 
@@ -23,7 +24,15 @@ dash_app.layout = html.Div(children=[
     dcc.Graph(
         id='stations',
         figure=stations_map(),
-        style={'width': '98vw', 'height': '90vh'}
+        style={'width': '98vw', 'height': '45vh'}
+    ),
+    html.Div([
+        html.Pre(id='selected-data'),
+    ]),
+    dcc.Graph(
+        id='ecart',
+        figure=std_plot(),
+        style={'width': '98vw', 'height': '45vh'}
     ),
 ])
 
@@ -54,6 +63,18 @@ def long_run_ingestion():
     """
     start_ingest()
     return '200'
+
+
+@dash_app.callback(
+    [Output('selected-data', 'children'), Output('stations', 'figure')],
+    Input('ecart', 'clickData'))
+def display_clicked_data(clickData):
+    date = ''
+    try:
+        date = clickData['points'][0]['x']
+    except TypeError:
+        pass
+    return date, stations_map(date)
 
 
 if __name__ == '__main__':
