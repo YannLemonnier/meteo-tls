@@ -29,9 +29,6 @@ class ImportCleanStationsData(ImportToulouseDataset):
 
         tmp_df = self.get_url_as_dataframe(nb_rows=None)
 
-        if len(tmp_df) < 40000:
-            raise ValueError('Not enough data')
-
         check_id = tmp_df.id == id_number
         try:
             check_temperature = tmp_df.temperature > -20
@@ -42,6 +39,10 @@ class ImportCleanStationsData(ImportToulouseDataset):
 
         tmp_df = tmp_df.where(clean_check).dropna()
         tmp_df = tmp_df.astype(data_types)
+
+        if len(tmp_df) < 40000:
+            raise ValueError('Not enough data')
+
         return tmp_df
 
     def check_header(self):
