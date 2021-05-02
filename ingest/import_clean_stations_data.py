@@ -19,13 +19,15 @@ class ImportCleanStationsData(ImportToulouseDataset):
         return data_stream
 
     def clean_url_stream(self) -> pandas.DataFrame:
+        id_number = int(self.destination_name[:2])
+        if id_number == 1:
+            raise ValueError('Bad station')
+
         self.check_header()
 
         data_types = self.get_dtypes()
 
         tmp_df = self.get_url_as_dataframe(nb_rows=None)
-
-        id_number = int(self.destination_name[:2])
 
         check_id = tmp_df.id == id_number
         try:
