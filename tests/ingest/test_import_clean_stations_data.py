@@ -34,7 +34,7 @@ class TestImportCleanStationsData:
     @pytest.fixture
     def bad_dataset(self, small_dataset_import):
         tmp_df = small_dataset_import.get_url_as_dataframe(nb_rows=700)
-        tmp_df = tmp_df.append([tmp_df]*100)
+        tmp_df = tmp_df.append([tmp_df]*400)
         yield tmp_df
 
     @pytest.fixture
