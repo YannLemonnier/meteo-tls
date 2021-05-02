@@ -19,13 +19,15 @@ class ImportCleanStationsData(ImportToulouseDataset):
         return data_stream
 
     def clean_url_stream(self) -> pandas.DataFrame:
+        id_number = int(self.destination_name[:2])
+        if id_number == 1:
+            raise ValueError('Bad station')
+
         self.check_header()
 
         data_types = self.get_dtypes()
 
         tmp_df = self.get_url_as_dataframe(nb_rows=None)
-
-        id_number = int(self.destination_name[:2])
 
         check_id = tmp_df.id == id_number
         try:
@@ -37,6 +39,10 @@ class ImportCleanStationsData(ImportToulouseDataset):
 
         tmp_df = tmp_df.where(clean_check).dropna()
         tmp_df = tmp_df.astype(data_types)
+
+        if len(tmp_df) < 40000:
+            raise ValueError('Not enough data')
+
         return tmp_df
 
     def check_header(self):
