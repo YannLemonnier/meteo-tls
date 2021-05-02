@@ -12,7 +12,7 @@ steps:
 # Deployment
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'bash'
-  args: ['-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy && gcloud app deploy cron.yaml']
+  args: ['-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy --no-promote --version=dev']
   waitFor: ['test']
   id: 'deploy-main'
 timeout: '1600s'

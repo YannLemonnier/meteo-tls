@@ -1,12 +1,15 @@
-from ingest_station_description import ingest_station_description
+from ingest.ingest_to_bigquery import ingest_station_description, ingest_station_data
 
-from initiate_dataset import initiate_dataset
+from ingest.initiate_dataset import initiate_dataset
 
 
-def main(data, context):
+def start_ingest():
     stage_dataset = initiate_dataset()
     ingest_station_description(stage_dataset)
 
+    raw_table = 'stations'
+    ingest_station_data(stage_dataset, raw_table)
+
 
 if __name__ == "__main__":
-    main('data', 'context')
+    start_ingest()

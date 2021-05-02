@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
-from visualize.queries import table_to_df
+from ingest.queries import table_to_df
 
 
 def test_table_to_df():
