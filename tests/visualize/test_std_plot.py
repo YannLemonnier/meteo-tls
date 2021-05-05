@@ -9,7 +9,7 @@ from visualize.std_plot import std_plot
 
 
 def test_std_plot():
-    with patch('ingest.queries.get_std_by_date_hour') as df:
+    with patch('visualize.std_plot.get_std_by_date_hour') as df:
         df.return_value = pd.DataFrame([[1.42, 43.6, 135]],
                                        columns=['datetime', 'temperature', 'std'])
         assert isinstance(std_plot(), Figure)
