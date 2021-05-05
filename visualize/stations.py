@@ -1,12 +1,18 @@
+import pandas
 import plotly.express as px
 from plotly.graph_objs import Figure
 
 from ingest.queries import get_all_temp_to_df
 
-all_temp = get_all_temp_to_df('stations-meteo-en-place', 'stations')
+all_temp = pandas.DataFrame()
 
 
 def stations_map(date: str = None) -> Figure:
+
+    global all_temp
+    if all_temp.index.empty:
+        all_temp = get_all_temp_to_df('stations-meteo-en-place', 'stations')
+
     if date == '' or date is None:
         stations_info = all_temp.groupby(['id_nom', 'longitude', 'latitude', 'altitude'], as_index=False).mean()
         mean = stations_info.temperature.mean().round(2)
